@@ -1,5 +1,10 @@
 import React from 'react';
 import './App.css';
+import { Route, Routes } from 'react-router-dom';
+import HomePage from './pages/index';
+import Carrinho from './pages/carrinho';
+import Login from './pages/cadastro';
+import { RequireAuth } from './contexts/Auth/RequireAuth';
 
 function App() {
   if (typeof window === "object") {
@@ -9,20 +14,12 @@ function App() {
   }
   return (
     <div className="App">
-      <header className="App-header">
-        
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <p>React Router</p>
+      <Routes>
+        <Route path="/" element={<RequireAuth><HomePage/></RequireAuth>} />
+        <Route path="/carrinho" element={<Carrinho/>} />
+        <Route path="/login" element={<Login/>} />
+      </Routes>
     </div>
   );
 }
