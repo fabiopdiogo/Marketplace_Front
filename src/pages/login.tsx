@@ -1,8 +1,11 @@
-import React, { FormEvent, useState, ChangeEvent } from "react"
+import React, { FormEvent,useContext, useState, ChangeEvent } from "react"
 import styled from "styled-components"
 import axios from 'axios'
+
+import { AuthContext } from "../../src/contexts/Auth/AuthContext"
 import { baseURL } from "../utils/constant"
 import Input from "../componentes/inputs/Input"
+import { useNavigate } from "react-router-dom"
 
 const Form = styled.form`
   display: flex;
@@ -49,24 +52,30 @@ const DivButton = styled.div`
 export default function Login (){
   const[email, setEmail] = useState<string>("");
   const[password, setPassword] = useState<string>("");
+  
+  const auth = useContext(AuthContext);
+  const navigate = useNavigate()
 
   const createSession = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   
-    try {
-      const response = await axios.post(`${baseURL}/login`, {
-        email: email,
-        password: password
-      });
-  
-      if (response.status === 200) {
-        console.log("Conectado");
-      } else {
-        console.log("Senha ou usuário inválidos");
-      }
-  
+    try{
+      
+      if(email && password){
+        
+        const response = await auth.signin(email,password);       
+        console.log("aqui") 
+        console.log(response)
+        if (response.status === 200 ) {
+          console.log("Conectado");
+          navigate('/')
+        } else {
+          console.log("Senha ou usuário inválidos");
+        }
+    
       setEmail("");
       setPassword("");
+      }      
     } catch (error) {
       console.error(error);
     }

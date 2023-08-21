@@ -3,22 +3,18 @@ import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import HomePage from './pages/index';
 import Carrinho from './pages/carrinho';
-import Login from './pages/cadastro';
+import Login from './pages/login';
 import { RequireAuth } from './contexts/Auth/RequireAuth';
-
+import Cadastro from './pages/cadastro';
 function App() {
-  if (typeof window === "object") {
-    console.log("a")
-  } else {
-    console.log("b")
-  }
+  
   return (
     <div className="App">
-      <p>React Router</p>
-      <Routes>
-        <Route path="/" element={<RequireAuth><HomePage/></RequireAuth>} />
-        <Route path="/carrinho" element={<Carrinho/>} />
-        <Route path="/login" element={<Login/>} />
+      <Routes>        
+        <Route path="/login" element={<Login/>} />           
+        <Route path="/cadastro" element={<Cadastro/>} />     
+        <Route path="/carrinho" element={<RequireAuth><Carrinho/></RequireAuth>} />
+        <Route path="/" element={<RequireAuth><HomePage/></RequireAuth>}/>
       </Routes>
     </div>
   );

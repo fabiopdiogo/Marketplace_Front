@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import styles from "./Navbar.module.css";
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../contexts/Auth/AuthContext';
 
 
 interface Props{
@@ -9,6 +10,12 @@ interface Props{
 }
 
 const Navbar = ({setMenuIsVisible}:Props) => {
+  const auth = useContext(AuthContext);
+
+  const handleLogout = async () => {
+    await auth.signout();
+  }
+  
   return (
     <>      
       <header className={styles.header}>
@@ -31,8 +38,12 @@ const Navbar = ({setMenuIsVisible}:Props) => {
           <img src="icons/search.png" alt="" />
           <a href="/carrinho"><img src="icons/carrinho.png" alt="" /></a>
           <img src="icons/user-50.png" alt="" />   
+          {auth.user && <button onClick={handleLogout}> Sair</button>}
+          {auth.user && <p>{auth.user.name}</p>}
         </div>
         
+        
+
       </header>
     </>
   )
