@@ -56,8 +56,6 @@ const ItemsSection = styled.section`
     ListProducts()
   },[auth])
  
-
-
   return(
     <Page>
       <Navbar setMenuIsVisible={setMenuIsVisible}></Navbar>

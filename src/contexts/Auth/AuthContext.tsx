@@ -1,6 +1,7 @@
 import { createContext } from 'react';
 import {User} from '../../types/User';
-import {Product} from '../../types/Product';
+import { Purchase } from '../../types/Purchase'; 
+import React from 'react';
 
 export type AuthContextType = {
   user: User | null;

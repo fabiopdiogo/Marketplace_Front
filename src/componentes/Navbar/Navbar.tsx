@@ -15,7 +15,7 @@ const Navbar = ({setMenuIsVisible}:Props) => {
   const handleLogout = async () => {
     await auth.signout();
   }
-  
+
   return (
     <>      
       <header className={styles.header}>

@@ -1,4 +1,12 @@
+import {useContext} from 'react'
+
 import styled from "styled-components"
+import { AuthContext } from "../contexts/Auth/AuthContext"
+import { CartContext } from '../contexts/Cart/CartContext'
+import { useCart }  from '../contexts/Cart/CartProvider'
+
+//import { useCart } from './CartProvider';
+
 
 const Div =  styled.header`
   display: flex;
@@ -40,7 +48,7 @@ function Carrinho (){
           <A href="/">Voltar</A>
         </Header>
         <Main>
-          <h1>Carrinho</h1>
+
         </Main>
         <Footer>
           SAC Carrinho Telefone/Whats: (31) 9999-9999
