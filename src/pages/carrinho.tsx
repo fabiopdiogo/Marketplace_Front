@@ -3,9 +3,7 @@ import {useContext} from 'react'
 import styled from "styled-components"
 import { AuthContext } from "../contexts/Auth/AuthContext"
 import { CartContext } from '../contexts/Cart/CartContext'
-import { useCart }  from '../contexts/Cart/CartProvider'
 
-//import { useCart } from './CartProvider';
 
 
 const Div =  styled.header`
@@ -42,6 +40,7 @@ const A = styled.a`
   }
 `
 function Carrinho (){
+
     return(
       <Div>
         <Header>

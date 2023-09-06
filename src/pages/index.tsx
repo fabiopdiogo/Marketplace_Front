@@ -1,12 +1,13 @@
 import React, {useState, useEffect, useContext} from 'react';
 import styled from 'styled-components';
 import { Route, redirect } from 'react-router-dom';
-
 import Navbar from '../componentes/Navbar/Navbar';
+
 import Cover from '../Sections/Cover/Cover';
 import ItemCard from '../componentes/ItemsCard/ItemsCard';
-import { Product } from '../types/Product';
+import { Product, UseProductsContextType } from '../types/Product';
 import { AuthContext } from '../contexts/Auth/AuthContext';
+import { CartContext } from '../contexts/Cart/CartContext'
 
 export default function HomePage(){
   const Page = styled.div`
@@ -44,18 +45,12 @@ const ItemsSection = styled.section`
   `
 
   const [menuIsVisible, setMenuIsVisible] = useState(true);
-  const [products, setProducts] = useState<Product[]>([]);
+  //const [products, setProducts] = useState<Product[]>([]);
+  const {state: { products }} = useContext(CartContext);
+  
+  console.log(products)
 
 
-  const auth = useContext(AuthContext);
-  useEffect(() => {
-    const ListProducts = async () =>{
-      const response = await auth.getProducts()
-      setProducts(response)
-    }
-    ListProducts()
-  },[auth])
- 
   return(
     <Page>
       <Navbar setMenuIsVisible={setMenuIsVisible}></Navbar>
@@ -66,8 +61,8 @@ const ItemsSection = styled.section`
           {products.length > 0 && (
             <>
               {
-                products.map((p) => (
-                  <ItemCard src={p.image_path}/>
+                products.map((p: Product) => (
+                  <ItemCard prod={p}/>
                 ))
               }
             </>

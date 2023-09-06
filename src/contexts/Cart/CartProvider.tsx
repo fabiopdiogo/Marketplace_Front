@@ -1,47 +1,40 @@
 import React, { createContext, useContext, useEffect, useReducer, useState } from 'react';
-import { cartReducer } from './Reducer';
+
+
 import { Product } from '../../types/Product';
 import { AuthContext } from '../Auth/AuthContext';
+import { cartReducer } from './Reducer';
+import { CartContext } from './CartContext';
 
-interface CartContextType {
-  products: Product[];
-  cart: any[]; // Coloque o tipo correto para o array 'cart'
-  addToCart: (product: Product[]) => void;
-}
+const Cart = createContext(CartContext);
 
-const CartContext = createContext<CartContextType | undefined>(undefined);
+export const CartProvider = ({children}: { children: JSX.Element} ) =>{
 
-const CartProvider = ({ children }: { children: JSX.Element }) => {
-  const [products, setProducts] = useState<Product[]>([]);
   const auth = useContext(AuthContext);
-  const [cart, dispatch] = useReducer(cartReducer, []);
+  const [productsAux, setProductsAux] = useState<Product>({"_id": "001","name": "PTeste","image_path": "teste/teste"})
 
   useEffect(() => {
-    const loadProducts = async () => {
-      const response = await auth.getProducts();
-      setProducts(response);
-    };
-    addToCart(products)
-    loadProducts();
-  }, [auth]);
+    const ListProducts = async () =>{
+      const response = await auth.getProducts()
+      setProductsAux(response)
+    }
+    ListProducts()
+  },[auth])
+  
+  //const [products, setProducts] = useState<Product>(productsAux);
+  
+  const [state, dispatch] = useReducer(cartReducer, {
+    products: [], // Inicializa com o valor de productsAux
+    cart: []
+  });
+  
+  useEffect(() => {
+    dispatch({ type: 'UPDATE_PRODUCTS', payload: productsAux });
+  }, [productsAux]);
+  //console.log(productsAux)
+  console.log(state)
 
-  const addToCart = (product: Product[]) => {
-    dispatch({ type: 'ADD_TO_CART', payload: product });
-  };
-
-  return (
-    <CartContext.Provider value={{ products, cart, addToCart }}>
-      {children}
-    </CartContext.Provider>
-  );
-};
-
-export default CartProvider;
-
-export const useCart = () => {
-  const context = useContext(CartContext);
-  if (!context) {
-    throw new Error('useCart must be used within a CartProvider');
-  }
-  return context;
-};
+  return <CartContext.Provider value={{state, dispatch}}>
+          {children}
+        </CartContext.Provider>
+}

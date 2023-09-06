@@ -1,4 +1,5 @@
 import styled  from "styled-components";
+import { Product } from "../../types/Product";
 
 const Card = styled.div`
   display: flex;
@@ -25,13 +26,13 @@ const Preco = styled.h2`
 const P = styled.p`
 `
 interface Props{
-  src: string;
+  prod : Product ;
 }
 
-function ItemCard ({src}:Props){
+function ItemCard ({prod}: Props){
   return(
     <Card>
-      <Image src={src}/>
+      <Image src={prod.image_path}/>
       <Preco>R$ 200</Preco>
       <P>A vista no pix</P>
     </Card>

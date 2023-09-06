@@ -1,13 +1,8 @@
-import { Product } from "../../types/Product";
-
-// Reducer.ts
-const cartReducer = (state: Product[], action: { type: string, payload: Product }): Product[] => {
-  switch (action.type) {
-    case 'ADD_TO_CART':
-      return [...state, action.payload]; // Adicionar o produto ao estado do carrinho
+export const cartReducer =  (state: any, action: any) =>  {
+  switch (action.type){
+    case 'UPDATE_PRODUCTS':
+      return { ...state, products: action.payload };
     default:
-      return state; // Retornar o estado sem modificações para outras ações
+      return state;
   }
-};
-
-export default cartReducer;
+}
