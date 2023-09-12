@@ -11,7 +11,7 @@ const Cart = createContext(CartContext);
 export const CartProvider = ({children}: { children: JSX.Element} ) =>{
 
   const auth = useContext(AuthContext);
-  const [productsAux, setProductsAux] = useState<Product>({"_id": "001","name": "PTeste","image_path": "teste/teste"})
+  const [productsAux, setProductsAux] = useState<Product>({"_id": "001","name": "PTeste","image_path": "teste/teste", "amount": 2})
 
   useEffect(() => {
     const ListProducts = async () =>{
@@ -29,7 +29,7 @@ export const CartProvider = ({children}: { children: JSX.Element} ) =>{
   });
   
   useEffect(() => {
-    dispatch({ type: 'UPDATE_PRODUCTS', payload: productsAux });
+    dispatch({ type: 'ADD_TO_CART', payload: productsAux });
   }, [productsAux]);
   //console.log(productsAux)
   console.log(state)

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 const Button = styled.button`
   background-color: ${props => props.theme.primary};
-  padding: 15px 20px; 
+  padding: 5px 20px; 
   border-radius: 10px;
   border: 0;
   font-weight: bold;
