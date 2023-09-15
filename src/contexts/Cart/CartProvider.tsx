@@ -20,19 +20,15 @@ export const CartProvider = ({children}: { children: JSX.Element} ) =>{
     }
     ListProducts()
   },[auth])
-  
-  //const [products, setProducts] = useState<Product>(productsAux);
-  
+    
   const [state, dispatch] = useReducer(cartReducer, {
     products: [], // Inicializa com o valor de productsAux
     cart: []
   });
   
   useEffect(() => {
-    dispatch({ type: 'ADD_TO_CART', payload: productsAux });
+    dispatch({ type: 'POPULATE', payload: productsAux });
   }, [productsAux]);
-  //console.log(productsAux)
-  console.log(state)
 
   return <CartContext.Provider value={{state, dispatch}}>
           {children}

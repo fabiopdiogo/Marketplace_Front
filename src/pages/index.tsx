@@ -9,8 +9,7 @@ import { Product, UseProductsContextType } from '../types/Product';
 import { AuthContext } from '../contexts/Auth/AuthContext';
 import { CartContext } from '../contexts/Cart/CartContext'
 
-export default function HomePage(){
-  const Page = styled.div`
+const Page = styled.div`
   width: 100%;
   overflow-x: hidden;
 `
@@ -43,13 +42,25 @@ const ItemsSection = styled.section`
     padding-right: 40px;
   }
   `
+  const Card = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%; /* Largura fixa da div pai */
+  height: auto; /* Altura fixa da div pai */
+  padding: 15px;
+  margin-bottom: 20px;
+  &:hover{
+    box-shadow:
+    0px 0px 4px rgba(0, 0, 0, 0.2), /* Sombra fraca em todas as direções */
+    8px 0px 8px -4px rgba(0, 0, 0, 0.2); /* Sombra mais forte na direita */
+  }
+`
+export default function HomePage(){
+  
 
   const [menuIsVisible, setMenuIsVisible] = useState(true);
   //const [products, setProducts] = useState<Product[]>([]);
   const {state: { products }} = useContext(CartContext);
-  
-  console.log(products)
-
 
   return(
     <Page>
@@ -62,7 +73,9 @@ const ItemsSection = styled.section`
             <>
               {
                 products.map((p: Product) => (
-                  <ItemCard prod={p}/>
+                  <Card>
+                    <ItemCard prod={p}/>
+                  </Card>
                 ))
               }
             </>

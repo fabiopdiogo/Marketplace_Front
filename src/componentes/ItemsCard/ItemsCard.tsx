@@ -1,7 +1,7 @@
 import styled  from "styled-components";
 import { Product } from "../../types/Product";
-import { truncate } from "fs";
-
+import { CartContext } from "../../contexts/Cart/CartContext";
+import { useContext } from "react";
 const Card = styled.div`
   display: flex;
   flex-direction: column;
@@ -9,15 +9,14 @@ const Card = styled.div`
   height: auto; /* Altura fixa da div pai */
   padding: 15px;
   margin-bottom: 20px;
-  cursor: pointer;  
   &:hover{
     box-shadow:
     0px 0px 4px rgba(0, 0, 0, 0.2), /* Sombra fraca em todas as direções */
     8px 0px 8px -4px rgba(0, 0, 0, 0.2); /* Sombra mais forte na direita */
   }
 `
-const Button = styled.button`
-  background-color: ${props => props.theme.primary};
+const ButtonAdd = styled.button`
+  background-color: lightblue;
   padding: 5px 10px; 
   border-radius: 10px;
   border: 0;
@@ -25,6 +24,27 @@ const Button = styled.button`
   color: ${props => props.theme.white};
   font-size: 16px;
   transition: 0.3s;
+  cursor: pointer;
+  ${props => props.disabled && 'cursor: pointer;'}
+
+  :hover {
+    background-color: blue;
+  }
+
+  :disabled {
+    background-color: ${props => props.theme.disabled};
+  }
+`
+const ButtonRemove = styled.button`
+  background-color: red;
+  padding: 5px 10px; 
+  border-radius: 10px;
+  border: 0;
+  font-weight: bold;
+  color: ${props => props.theme.white};
+  font-size: 16px;
+  transition: 0.3s;  
+  cursor: pointer;
 
   ${props => props.disabled && 'cursor: pointer;'}
 
@@ -52,24 +72,49 @@ interface Props{
 }
 
 function ItemCard({ prod }: Props) {
+  const {
+    state: { cart },
+    dispatch
+  } = useContext(CartContext);
 
   const checkDisabled = () => {
-    if (prod.amount > 0) return true;
-    else return false;
+    if (prod.amount > 0) return false;
+    else return true;
   };
+  console.log(cart)
 
   return (
-    <Card>
+    <>
       <Image src={prod.image_path} />
       <P>{prod.name}</P>
       <Preco>R$ 200</Preco>
       <P>A vista no pix</P>
-      <Button>Remover do Carrinho</Button>
-      <Button disabled={checkDisabled()}>
-        {!checkDisabled() ? "Sem estoque" : "Adicionar ao carrinho"}
-      </Button>
-    </Card>
+      {cart.some((p: { _id: any }) => p._id === prod._id) ? (
+        <ButtonRemove
+          onClick={() =>
+            dispatch({
+              type: 'REMOVE_FROM_CART',
+              payload: prod._id // Use prod._id como payload
+            })
+          }
+        >
+          Remover do Carrinho
+        </ButtonRemove>
+      ) : (
+        <ButtonAdd
+          onClick={() =>
+            dispatch({
+              type: 'ADD_TO_CART',
+              payload: prod // Use prod diretamente como payload
+            })}
+          disabled={checkDisabled()}
+        >
+          {!checkDisabled() ? "Adicionar ao carrinho" : "Sem estoque"}
+        </ButtonAdd>
+      )}
+    </>
   );
 }
+
 
 export default ItemCard;
