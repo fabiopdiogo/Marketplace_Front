@@ -2,6 +2,7 @@ import styled  from "styled-components";
 import { Product } from "../../types/Product";
 import { CartContext } from "../../contexts/Cart/CartContext";
 import { useContext } from "react";
+
 const Card = styled.div`
   display: flex;
   flex-direction: column;
@@ -87,7 +88,7 @@ function ItemCard({ prod }: Props) {
     <>
       <Image src={prod.image_path} />
       <P>{prod.name}</P>
-      <Preco>R$ 200</Preco>
+      <Preco>R${prod.price}</Preco>
       <P>A vista no pix</P>
       {cart.some((p: { _id: any }) => p._id === prod._id) ? (
         <ButtonRemove

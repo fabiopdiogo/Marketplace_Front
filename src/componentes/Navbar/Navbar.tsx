@@ -7,9 +7,10 @@ import { AuthContext } from '../../contexts/Auth/AuthContext';
 
 interface Props{
   setMenuIsVisible?(setMenuIsVisible: boolean): void;
+  prodNum: Number
 }
 
-const Navbar = ({setMenuIsVisible}:Props) => {
+const Navbar = ({setMenuIsVisible,prodNum}:Props) => {
   const auth = useContext(AuthContext);
 
   const handleLogout = async () => {
@@ -36,7 +37,7 @@ const Navbar = ({setMenuIsVisible}:Props) => {
 
         <div className={styles.icons}>
           <img src="icons/search.png" alt="" />
-          <a href="/carrinho"><img src="icons/carrinho.png" alt="" /></a>
+          <Link to="/carrinho"><img src="icons/carrinho.png" alt="" />{prodNum.toString()}</Link>
           <img src="icons/user-50.png" alt="" />   
           {auth.user && <button onClick={handleLogout}> Sair</button>}
           {auth.user && <p>{auth.user.name}</p>}

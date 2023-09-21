@@ -1,10 +1,9 @@
 import {useContext} from 'react'
 
 import styled from "styled-components"
-import { AuthContext } from "../contexts/Auth/AuthContext"
 import { CartContext } from '../contexts/Cart/CartContext'
-
-
+import { Product } from '../types/Product'
+import ProdCart from '../componentes/ItemCart/ProdCart'
 
 const Div =  styled.header`
   display: flex;
@@ -41,13 +40,23 @@ const A = styled.a`
 `
 function Carrinho (){
 
+  const {
+    state: { cart }
+  } = useContext(CartContext);
+
+    console.log(cart)
+                                                              
     return(
       <Div>
         <Header>
           <A href="/">Voltar</A>
         </Header>
         <Main>
-
+          {
+            cart.map((prod: Product) => (
+              <ProdCart product={prod} />
+            ))
+          }
         </Main>
         <Footer>
           SAC Carrinho Telefone/Whats: (31) 9999-9999

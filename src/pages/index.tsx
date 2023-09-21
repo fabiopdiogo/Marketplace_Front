@@ -60,11 +60,13 @@ export default function HomePage(){
 
   const [menuIsVisible, setMenuIsVisible] = useState(true);
   //const [products, setProducts] = useState<Product[]>([]);
-  const {state: { products }} = useContext(CartContext);
+  const {
+    state: { cart, products },
+  } = useContext(CartContext);
 
   return(
     <Page>
-      <Navbar setMenuIsVisible={setMenuIsVisible}></Navbar>
+      <Navbar setMenuIsVisible={setMenuIsVisible} prodNum={cart.length}></Navbar>
       <Cover/>
       <Img src="covers/accolades.png" />      
       <Div>
