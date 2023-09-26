@@ -4,7 +4,7 @@ export type Product = {
   _id: string;
   name: string;
   image_path: string;
-  amount : number;  
+  quantity : number;  
   price: number;
 }
 

@@ -78,12 +78,6 @@ function ItemCard({ prod }: Props) {
     dispatch
   } = useContext(CartContext);
 
-  const checkDisabled = () => {
-    if (prod.amount > 0) return false;
-    else return true;
-  };
-  console.log(cart)
-
   return (
     <>
       <Image src={prod.image_path} />
@@ -108,9 +102,8 @@ function ItemCard({ prod }: Props) {
               type: 'ADD_TO_CART',
               payload: prod // Use prod diretamente como payload
             })}
-          disabled={checkDisabled()}
         >
-          {!checkDisabled() ? "Adicionar ao carrinho" : "Sem estoque"}
+          "Adicionar ao carrinho" 
         </ButtonAdd>
       )}
     </>
