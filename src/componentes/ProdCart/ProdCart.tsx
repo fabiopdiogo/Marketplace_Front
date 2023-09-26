@@ -9,8 +9,7 @@ interface Props {
 
 function ProdCart ({ product } : Props) {
 
-  const {_id,name, price, image_path} = product;
-  const [newQuantity, setNewQuantity] = useState(1);
+  const {_id,name, price, image_path,quantity} = product;
 
   const {
     state: { cart },
@@ -22,13 +21,10 @@ function ProdCart ({ product } : Props) {
   }
   const handleQuantity = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const intValue = parseInt(event.target.value, 10);
-    const productId=_id;
-    setNewQuantity(intValue);    
-    //console.log(newQuantity)
-    dispatch({ type: 'UPDATE_PRODUCT_QUANTITY', payload: { productId, newQuantity } });
+    dispatch({ type: 'UPDATE_CART_QTY', payload: { _id: _id, quantity: intValue } });
   }
   useEffect(() =>{
-    console.log(cart)
+    //console.log(cart)
   },[cart])
 
   return (
@@ -36,8 +32,8 @@ function ProdCart ({ product } : Props) {
       <Div>
         <ProductImage src={image_path} alt={name} />
         <ProductName>{name}</ProductName>
-        <ProductPrice>${price}</ProductPrice>     
-        <ProductQuantity onChange={handleQuantity}>
+        <ProductPrice>${price*quantity}</ProductPrice>     
+        <ProductQuantity defaultValue={quantity} onChange={handleQuantity}>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>

@@ -1,4 +1,4 @@
-import {useContext} from 'react'
+import {useContext, useEffect} from 'react'
 
 import styled from "styled-components"
 import { CartContext } from '../contexts/Cart/CartContext'
@@ -10,14 +10,18 @@ function Carrinho (){
 
   const {
     state: { cart }
-  } = useContext(CartContext);
+  } = useContext(CartContext); 
 
+  useEffect(() => {
+    console.log(cart)
+  })
+  
   const somarPrecos = (cart: Product[]) => {
     // Verifica se o vetor de produtos não está vazio
     if (cart.length === 0) {
       return 0; // Retorna 0 se o vetor está vazio
     }
-  
+    
     // Utiliza reduce para somar os preços
     const total = cart.reduce((acumulador, produto) => {
       //console.log(produto.quantity) 
@@ -27,31 +31,31 @@ function Carrinho (){
     return total;
   };           
                                  
-    return(
-      <Div>
-        <Header>
-          <Link to="/">Voltar</Link>
-        </Header>
-        <Main>
-          <Products>            
-          {
-            <>
-              {cart.map((prod: Product) => (
-                <ProdCart key={prod._id} product={prod} />
-              ))}
-            </>
-          }
-          </Products>
-          <Summary>
-            <span>Subtotal: {cart.length} items</span>
-            <span>Total: R${somarPrecos(cart)} </span>
-          </Summary>
-        </Main>
-        <Footer>
-          SAC Carrinho Telefone/Whats: (31) 9999-9999
-        </Footer>
-      </Div>
-    )
+  return(
+    <Div>
+      <Header>
+        <Link to="/">Voltar</Link>
+      </Header>
+      <Main>
+        <Products>            
+        {
+          <>
+            {cart.map((prod: Product) => (
+              <ProdCart key={prod._id} product={prod} />
+            ))}
+          </>
+        }
+        </Products>
+        <Summary>
+          <span>Subtotal: {cart.length} items</span>
+          <span>Total: R${somarPrecos(cart)} </span>
+        </Summary>
+      </Main>
+      <Footer>
+        SAC Carrinho Telefone/Whats: (31) 9999-9999
+      </Footer>
+    </Div>
+  )
   }
 
 const Div =  styled.header`

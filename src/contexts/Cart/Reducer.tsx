@@ -9,15 +9,8 @@ export const cartReducer = (state: any, action: any) => {
         ...state,
         cart: state.cart.filter((product: { _id: string; }) => product._id !== action.payload)
       };
-    case 'UPDATE_PRODUCT_QUANTITY':
-      const { productId, newQuantity } = action.payload;
-
-      // Atualiza a quantidade do produto no carrinho
-      const updatedCart = state.cart.map((product: { _id: string; }) =>
-        product._id === productId ? { ...product, quantity: newQuantity } : product
-      );
-
-      return { ...state, cart: updatedCart };
+    case 'UPDATE_CART_QTY':
+      return { ...state, cart: state.cart.filter((c: { _id: string; quantity: number; })=> c._id === action.payload._id ? c.quantity=action.payload.quantity : c.quantity) };
     default:
       return state;
   }

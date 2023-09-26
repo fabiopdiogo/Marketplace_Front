@@ -63,7 +63,6 @@ export default function HomePage(){
   const {
     state: { cart, products },
   } = useContext(CartContext);
-  console.log(cart)
   return(
     <Page>
       <Navbar setMenuIsVisible={setMenuIsVisible} prodNum={cart.length}></Navbar>
