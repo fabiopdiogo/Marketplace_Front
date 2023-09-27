@@ -5,6 +5,7 @@ import { CartContext } from '../contexts/Cart/CartContext'
 import { Product } from '../types/Product'
 import ProdCart from '../componentes/ProdCart/ProdCart'
 import { Link } from 'react-router-dom'
+import Button  from '../componentes/inputs/Button'
 
 function Carrinho (){
 
@@ -15,7 +16,7 @@ function Carrinho (){
   useEffect(() => {
     console.log(cart)
   })
-  
+
   const somarPrecos = (cart: Product[]) => {
     // Verifica se o vetor de produtos não está vazio
     if (cart.length === 0) {
@@ -49,6 +50,7 @@ function Carrinho (){
         <Summary>
           <span>Subtotal: {cart.length} items</span>
           <span>Total: R${somarPrecos(cart)} </span>
+          <Button>Ir para pagamento</Button>
         </Summary>
       </Main>
       <Footer>
