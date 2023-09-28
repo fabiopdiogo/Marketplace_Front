@@ -16,47 +16,34 @@ const Card = styled.div`
     8px 0px 8px -4px rgba(0, 0, 0, 0.2); /* Sombra mais forte na direita */
   }
 `
-const ButtonAdd = styled.button`
+const Button = styled.button`
+  width: 100%;
+  margin-top: 2%;
+  padding: 2% 5%;
+  border-radius: 10px;
+  border: 0;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out; /* Adicionando a transição */
+
+  &:hover {
+    background-color: ${(props) => (props.disabled ? props.theme.disabled : 'blue')};
+  }
+
+  &:disabled {
+    background-color: ${(props) => props.theme.disabled};
+  }
+`;
+
+const ButtonAdd = styled(Button)`
   background-color: lightblue;
-  padding: 5px 10px; 
-  border-radius: 10px;
-  border: 0;
-  font-weight: bold;
-  color: ${props => props.theme.white};
-  font-size: 16px;
-  transition: 0.3s;
-  cursor: pointer;
-  ${props => props.disabled && 'cursor: pointer;'}
+`;
 
-  :hover {
-    background-color: blue;
-  }
-
-  :disabled {
-    background-color: ${props => props.theme.disabled};
-  }
-`
-const ButtonRemove = styled.button`
+const ButtonRemove = styled(Button)`
   background-color: red;
-  padding: 5px 10px; 
-  border-radius: 10px;
-  border: 0;
-  font-weight: bold;
-  color: ${props => props.theme.white};
-  font-size: 16px;
-  transition: 0.3s;  
-  cursor: pointer;
+`;
 
-  ${props => props.disabled && 'cursor: pointer;'}
-
-  :hover {
-    background-color: ${props => props.theme.primaryHover};
-  }
-
-  :disabled {
-    background-color: ${props => props.theme.disabled};
-  }
-`
 const Image = styled.img`
   width: 100%; 
 `
@@ -66,10 +53,9 @@ const Preco = styled.h2`
 `
 const P = styled.p`
   width: 100%; 
-  height: 0;
 `
 interface Props{
-  prod : Product ;
+  prod : Product;
 }
 
 function ItemCard({ prod }: Props) {

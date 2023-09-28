@@ -17,28 +17,29 @@ const Div = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: fit-content;
+  width: 100%;
 `
 const Img = styled.img`
   width: 100vw;
 `
 const ItemsSection = styled.section`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap:80px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap:90px;
   width: 90%;
   justify-content: center;
   align-items:center;
   flex-wrap: wrap;
 
-  @media(max-width: 1440px){
+  @media(max-width: 935px){
     grid-template-columns: repeat(3, 1fr);
-    padding: 10px;      
+    grid-gap:40px;
     padding-right: 40px;
   }
-  @media(max-width: 678px){
+
+  @media(max-width: 500px){
     grid-template-columns: repeat(2, 1fr);
-    grid-gap:40px;
+    grid-gap:10px;
     padding-right: 40px;
   }
   `

@@ -23,8 +23,6 @@ const Div = styled.div`
   align-items: center;
   background-color: #fff;  
   height: 100vh;  
-  gap: 5px;
-
   p{
     font-weight: bold;
   }
