@@ -1,25 +1,40 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import styles from "./Navbar.module.css";
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../contexts/Auth/AuthContext';
+import Menu from '../Menu/Menu';
 
 
 interface Props{
-  setMenuIsVisible?(setMenuIsVisible: boolean): void;
-  prodNum: Number
+  setMenuIsVisible(setMenuIsVisible: boolean): void;
+  prodNum: Number;
 }
 
+const Open = styled.img`
+  display: none;
+  width: 30px;
+  height: 30px;
+  @media(max-width:1200px){
+  display:flex;
+  padding: 20px;
+  cursor: pointer;
+  }
+`
+const Sair = styled.button`
+
+`
 const Navbar = ({setMenuIsVisible,prodNum}:Props) => {
   const auth = useContext(AuthContext);
 
   const handleLogout = async () => {
     await auth.signout();
   }
-
+  
   return (
     <>      
-      <header className={styles.header}>
+      <header className={styles.header}>        
+        <Open src="./Menu/icons8-menu-50.png" onClick={() => setMenuIsVisible(true)}/>
         <h1>CALÇADOS</h1>
 
         <div className={styles.options}>
@@ -38,9 +53,8 @@ const Navbar = ({setMenuIsVisible,prodNum}:Props) => {
         <div className={styles.icons}>
           <img src="icons/search.png" alt="" />
           <Link to="/carrinho"><img src="icons/carrinho.png" alt="" />{prodNum.toString()}</Link>
-          <img src="icons/user-50.png" alt="" />   
-          {auth.user && <button onClick={handleLogout}> Sair</button>}
-          {auth.user && <p>{auth.user.name}</p>}
+          <Link to="/perfil"><img src="icons/user-50.png" alt="" /></Link> 
+          
         </div>
         
         

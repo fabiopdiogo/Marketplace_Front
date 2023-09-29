@@ -8,6 +8,7 @@ import ItemCard from '../componentes/ItemsCard/ItemsCard';
 import { Product, UseProductsContextType } from '../types/Product';
 import { AuthContext } from '../contexts/Auth/AuthContext';
 import { CartContext } from '../contexts/Cart/CartContext'
+import Menu from '../componentes/Menu/Menu';
 
 const Page = styled.div`
   width: 100%;
@@ -59,14 +60,17 @@ const ItemsSection = styled.section`
 export default function HomePage(){
   
 
-  const [menuIsVisible, setMenuIsVisible] = useState(true);
+  const [menuIsVisible, setMenuIsVisible] = useState(false);
   //const [products, setProducts] = useState<Product[]>([]);
   const {
     state: { cart, products },
   } = useContext(CartContext);
   return(
     <Page>
-      <Navbar setMenuIsVisible={setMenuIsVisible} prodNum={cart.length}></Navbar>
+      <Menu     
+         menuIsVisible={menuIsVisible}
+         setMenuIsVisible={setMenuIsVisible} />
+      <Navbar prodNum={cart.length} setMenuIsVisible={setMenuIsVisible}/>
       <Cover/>
       <Img src="covers/accolades.png" />      
       <Div>
