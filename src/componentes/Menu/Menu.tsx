@@ -56,9 +56,28 @@ const Close = styled.img`
   display:flex;
   width: 30px;
   height: 30px;
+  perspective: 20px;
+  cursor: pointer;
+
+  @media(max-width:368px){
+    flex-direction: column;
+    padding: 10px;
+
+  }
+`
+const Perfil = styled.img`
+  display:flex;
+  width: 30px;
+  height: 30px;
   padding: 20px;
   cursor: pointer;
+
+  @media(max-width:368px){
+    flex-direction: column;
+    padding: 10px;
+  }
 `
+
 const A = styled.a`
   display: flex;
   align-items: center;  
@@ -72,6 +91,12 @@ const A = styled.a`
     text-decoration: none;
   }
 `
+const User = styled.div`
+  display: flex;
+  @media(max-width:368px){
+    flex-direction: column;
+  }
+`
 
 const Div= styled.div`
   display: flex;
@@ -80,12 +105,13 @@ const Div= styled.div`
 
   div{
     display: flex;
-    justify-content:center ;
+    justify-content:center;
     align-items: center;
     padding-top: 5px;
     padding-left: 5px;
   }
 `
+
 interface Props{
   menuIsVisible: boolean,
   setMenuIsVisible(setMenuIsVisible: boolean): void ;
@@ -97,10 +123,10 @@ function Menu({menuIsVisible, setMenuIsVisible}: Props){
   return(
     <Container isVisible={menuIsVisible}>
       <Div>
-        <div>
-          <Link to="/perfil"><img src="icons/user-50.png" alt="" /></Link>
+        <User>
+          <Link to="/perfil"><Perfil src="icons/user-50.png" alt="" /></Link>
           {auth.user && <p>{auth.user.name}</p>}
-        </div>        
+        </User>        
         <Close src="./Menu/icons8-close-50.png" onClick={() => setMenuIsVisible(false)}/>
       </Div>
       

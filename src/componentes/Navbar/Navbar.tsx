@@ -21,8 +21,19 @@ const Open = styled.img`
   cursor: pointer;
   }
 `
-const Sair = styled.button`
-
+const Perfil = styled.img`
+  @media(max-width: 340px){
+    display: none;
+  }
+`
+const Logo = styled.h1`
+  @media(max-width: 340px){
+    font-size:10px;
+  }
+`
+const Carrinho = styled.div`
+  display: flex;
+  flex-direction: row;
 `
 const Navbar = ({setMenuIsVisible,prodNum}:Props) => {
   const auth = useContext(AuthContext);
@@ -35,10 +46,10 @@ const Navbar = ({setMenuIsVisible,prodNum}:Props) => {
     <>      
       <header className={styles.header}>        
         <Open src="./Menu/icons8-menu-50.png" onClick={() => setMenuIsVisible(true)}/>
-        <h1>CALÇADOS</h1>
+        <Logo>CALÇADOS</Logo>
 
         <div className={styles.options}>
-          <Link to="">CICLISMO</Link>
+          <a>CICLISMO</a>
           <a>FEMININO</a>
           <a>MASCULINO</a>
           <a>CALÇADOS</a>
@@ -51,14 +62,18 @@ const Navbar = ({setMenuIsVisible,prodNum}:Props) => {
         </div>   
 
         <div className={styles.icons}>
-          <img src="icons/search.png" alt="" />
-          <Link to="/carrinho"><img src="icons/carrinho.png" alt="" />{prodNum.toString()}</Link>
-          <Link to="/perfil"><img src="icons/user-50.png" alt="" /></Link> 
-          
-        </div>
-        
-        
-
+      <div className={styles.icon}>
+        <Link to="/carrinho">
+          <img src="icons/carrinho.png" alt="Carrinho de compras" />
+          <span className={styles.iconCount}>{prodNum.toString()}</span>
+        </Link>
+      </div>
+      <div className={styles.icon}>
+        <Link to="/perfil">
+          <img src="icons/user-50.png" alt="Perfil" />
+        </Link>
+      </div>
+    </div>
       </header>
     </>
   )

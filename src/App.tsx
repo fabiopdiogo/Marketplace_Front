@@ -6,6 +6,7 @@ import Carrinho from './pages/carrinho';
 import Login from './pages/login';
 import { RequireAuth } from './contexts/Auth/RequireAuth';
 import Cadastro from './pages/cadastro';
+import Perfil from './pages/perfil';
 function App() {
   
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/login" element={<Login/>} />           
         <Route path="/cadastro" element={<Cadastro/>} />     
         <Route path="/carrinho" element={<RequireAuth><Carrinho/></RequireAuth>} />
+        <Route path="/perfil" element={<RequireAuth><Perfil /></RequireAuth>} />
         <Route path="/" element={<RequireAuth><HomePage/></RequireAuth>}/>
       </Routes>
     </div>

@@ -14,6 +14,7 @@ const Form = styled.form`
   justify-content: center;
   gap: 20px;
   padding: 50px;
+  width: 100%;
 `
 
 const Div = styled.div`
@@ -22,7 +23,7 @@ const Div = styled.div`
   justify-content:center;
   align-items: center;
   background-color: #fff;  
-  height: 100vh;  
+  height: 100vh;
   p{
     font-weight: bold;
   }
@@ -30,8 +31,6 @@ const Div = styled.div`
 const Img = styled.img`
   width: 50px;
 `
-
-
 const Button = styled.button`
   width: 100px;
   resize:none;  
@@ -91,7 +90,7 @@ export default function Login (){
   return(
     <Div>
       <Img src="icons/user-50.png" alt="" />
-      <h1>Seja bem vindo(a)!</h1>
+      <h1>Olá, faça seu login!</h1>
       <Form onSubmit={createSession}>
         <Input label="Email" name="email" error={""} onChange={handleChange} value={email}/>
         <Input label="Senha" name="password"  error={""} onChange={handleChange} value={password}/>
