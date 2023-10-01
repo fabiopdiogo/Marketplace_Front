@@ -7,6 +7,9 @@ const InputContainer = styled.div`
   @media (max-width: 500px) {
     width: 250px;
   }
+  @media (max-width: 300px) {
+    width: 200px;
+  }
 `
 
 const StyledInput = styled.input`
