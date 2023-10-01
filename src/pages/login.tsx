@@ -13,8 +13,6 @@ const Form = styled.form`
   align-items: center;
   justify-content: center;
   gap: 20px;
-  padding: 50px;
-  width: 100%;
 `
 
 const Div = styled.div`

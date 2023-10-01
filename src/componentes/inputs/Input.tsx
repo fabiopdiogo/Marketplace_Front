@@ -2,12 +2,15 @@ import styled from 'styled-components'
 import { Control, FieldValues, useController } from 'react-hook-form'
 
 const InputContainer = styled.div`
-  max-width: 500px;
-  width: 100%;
+  width: 500px;
+
+  @media (max-width: 500px) {
+    width: 250px;
+  }
 `
 
 const StyledInput = styled.input`
-  width: 500px;
+  width: 100%;
   border: 1px solid black;
   background-color: #F5F5F5;
   padding: 15px 20px;
