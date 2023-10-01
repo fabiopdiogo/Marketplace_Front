@@ -56,7 +56,7 @@ function Perfil (){
           
       </ProfileItem>
       <ProfileItem>
-        {auth.user && <Link to="/login"><Sair onClick={handleLogout}>Sair</Sair></Link>}
+        {auth.user && <Link to="/"><Sair onClick={handleLogout}>Sair</Sair></Link>}
       </ProfileItem> 
       <ProfileItem>
         <Link to="/">Voltar</Link>
