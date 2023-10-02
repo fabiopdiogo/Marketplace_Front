@@ -49,13 +49,12 @@ function ProdCart({ product }: Props) {
 const CartItemContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-evenly;
   margin-bottom: 10px;
   border-bottom: 1px solid #ccc;
   padding-bottom: 10px;
 
   @media (max-width: 350px) {
-    flex-direction: column;
-    text-align: center;
   }
 `;
 

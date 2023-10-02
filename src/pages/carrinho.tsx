@@ -6,11 +6,10 @@ import ProdCart from '../componentes/ProdCart/ProdCart';
 import { Link } from 'react-router-dom';
 
 function Carrinho() {
-  const { state: { cart } } = useContext(CartContext);
-
-  useEffect(() => {
-    console.log(cart);
-  }, []);
+  const { 
+    state: { cart } ,
+    dispatch
+} = useContext(CartContext);
 
   const somarPrecos = (cart: Product[]) => {
     if (cart.length === 0) {
@@ -22,6 +21,9 @@ function Carrinho() {
     }, 0);
 
     return total;
+  };
+  const clearCartAndNavigate = () => {
+    dispatch({ type: 'CLEAR_CART' });
   };
 
   return (
@@ -43,10 +45,10 @@ function Carrinho() {
         <Summary>
           <h2>Resumo</h2>
           <span>Total: R${somarPrecos(cart)}</span>
-          <Button1>Ir para pagamento</Button1>
+          <Link to="/"><Button1 onClick={clearCartAndNavigate}>Ir para pagamento</Button1></Link>
         </Summary>
       </Main>
-      <Button2>Ir para pagamento</Button2>
+      <Link to="/"><Button2 onClick={clearCartAndNavigate}>Ir para pagamento</Button2></Link>
       <Footer>
         SAC Carrinho Telefone/Whats: (31) 9999-9999
       </Footer>
@@ -59,6 +61,7 @@ const Div = styled.div`
   flex-direction: column;
   height: 100vh;
   margin: 0px 20px;
+  gap:10px;
 `;
 
 const SpanCarrinho = styled.div`
@@ -87,8 +90,6 @@ const Products = styled.div`
   width: 70%;
   flex-direction: column;
   box-sizing: border-box;
-  border-top: 1px solid gray;
-  border-bottom: 1px solid gray;
 
   @media (max-width: 800px) {
     width: 100%;
@@ -120,6 +121,7 @@ const Footer = styled.footer`
 
 const Button1 = styled.button`
   background-color: blue;
+  width: 100%;
   margin-top: 10px;
   padding: 5px 20px; 
   border-radius: 10px;
@@ -144,6 +146,8 @@ const Button1 = styled.button`
 const Button2 = styled.button`
   display: none;
   background-color: blue;
+  margin: 10px 0;
+  width: 100%;
   padding: 10px 20px; 
   border-radius: 10px;
   border: 0;
@@ -167,3 +171,4 @@ const Button2 = styled.button`
 `
 
 export default Carrinho;
+
