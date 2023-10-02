@@ -102,14 +102,7 @@ const Div= styled.div`
   display: flex;
   justify-content: space-between;
   width:100%;
-
-  div{
-    display: flex;
-    justify-content:center;
-    align-items: center;
-    padding-top: 5px;
-    padding-left: 5px;
-  }
+  margin-top: 10px;
 `
 
 interface Props{

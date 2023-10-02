@@ -1,81 +1,84 @@
 import React, { useContext, useEffect, useState } from 'react';
-import styled  from "styled-components";
-import { Product } from "../../types/Product";
-import { CartContext } from "../../contexts/Cart/CartContext";
+import styled from 'styled-components';
+import { Product } from '../../types/Product';
+import { CartContext } from '../../contexts/Cart/CartContext';
 
 interface Props {
   product: Product;
 }
 
-function ProdCart ({ product } : Props) {
-
-  const {_id,name, price, image_path,quantity} = product;
+function ProdCart({ product }: Props) {
+  const { _id, name, price, image_path, quantity } = product;
 
   const {
     state: { cart },
-    dispatch
+    dispatch,
   } = useContext(CartContext);
 
-  const RemoveProd = (id : string) => {
+  const RemoveProd = (id: string) => {
     dispatch({ type: 'REMOVE_FROM_CART', payload: id });
-  }
+  };
+
   const handleQuantity = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const intValue = parseInt(event.target.value, 10);
     dispatch({ type: 'UPDATE_CART_QTY', payload: { _id: _id, quantity: intValue } });
-  }
-  useEffect(() =>{
-    //console.log(cart)
-  },[cart])
+  };
+
+  useEffect(() => {
+    // console.log(cart)
+  }, [cart]);
 
   return (
-    <CartItemContainer>
-      <Div>
-        <ProductImage src={image_path} alt={name} />
+    <CartItemContainer>      
+      <ProductImage src={image_path} alt={name} />
+      <ProductDetails>
         <ProductName>{name}</ProductName>
-        <ProductPrice>${price*quantity}</ProductPrice>     
-        <ProductQuantity defaultValue={quantity} onChange={handleQuantity}>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-        </ProductQuantity>
-        <Remove src="bin.png" onClick={(e) => { e.preventDefault(); RemoveProd(product._id); }}></Remove>
-      </Div>      
+        <ProductPrice>${price * quantity}</ProductPrice>
+      </ProductDetails>
+      <ProductQuantity defaultValue={quantity} onChange={handleQuantity}>
+        {[1, 2, 3, 4, 5].map((value) => (
+          <option key={value} value={value}>
+            {value}
+          </option>
+        ))}
+      </ProductQuantity>
+      <Remove src="bin.png" alt="Remove" onClick={() => RemoveProd(_id)} />
     </CartItemContainer>
   );
-};
-
+}
 const CartItemContainer = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
   border-bottom: 1px solid #ccc;
   padding-bottom: 10px;
-`;
 
-const Div = styled.div`
-  display: flex;  
-  align-items: center;
-  gap:50px;
-  padding: 0 20px;
+  @media (max-width: 350px) {
+    flex-direction: column;
+    text-align: center;
+  }
 `;
-
-const Remove = styled.img`
-  width: 30px;
-  height: 30px;
-  cursor:pointer
-`
 
 const ProductImage = styled.img`
   width: 80px;
   height: 80px;
   object-fit: cover;
   margin-right: 20px;
-  padding-top: 10px;
+
+  @media (max-width: 350px) {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
 `;
 
+const ProductDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: 350px) {
+    align-items: center;
+  }
+`;
 
 const ProductName = styled.div`
   font-size: 16px;
@@ -89,29 +92,19 @@ const ProductPrice = styled.div`
 `;
 
 const ProductQuantity = styled.select`
-  width: 100px;
   padding: 10px;
   border-color: grey;
+  margin-bottom: 5px;
 `;
 
-const ButtonAdd = styled.button`
-  background-color: lightblue;
-  padding: 5px 10px; 
-  border-radius: 10px;
-  border: 0;
-  font-weight: bold;
-  color: ${props => props.theme.white};
-  font-size: 16px;
-  transition: 0.3s;
+const Remove = styled.img`
+  width: 30px;
+  height: 30px;
   cursor: pointer;
-  ${props => props.disabled && 'cursor: pointer;'}
 
-  :hover {
-    background-color: blue;
+  @media (max-width: 350px) {
+    margin-top: 10px;
   }
+`;
 
-  :disabled {
-    background-color: ${props => props.theme.disabled};
-  }
-`
 export default ProdCart;
