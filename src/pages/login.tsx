@@ -5,44 +5,7 @@ import axios from 'axios'
 import { AuthContext } from "../../src/contexts/Auth/AuthContext"
 import { baseURL } from "../utils/constant"
 import Input from "../componentes/inputs/Input"
-import { useNavigate } from "react-router-dom"
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-`
-
-const Div = styled.div`
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items: center;
-  background-color: #fff;  
-  height: 100vh;
-  p{
-    font-weight: bold;
-  }
-`
-const Img = styled.img`
-  width: 50px;
-`
-const Button = styled.button`
-  width: 100px;
-  resize:none;  
-  background-color: #111111;
-  color:#ffffff;  
-  padding: 15px;
-  cursor: pointer;
-`
-
-const DivButton = styled.div`
-  display:flex;
-  gap:5px;
-`
-
+import { useNavigate, Link } from "react-router-dom"
 
 export default function Login (){
   const[email, setEmail] = useState<string>("");
@@ -93,8 +56,46 @@ export default function Login (){
         <Input label="Email" name="email" error={""} onChange={handleChange} value={email}/>
         <Input label="Senha" name="password"  error={""} onChange={handleChange} value={password}/>
         <Button>Entrar</Button>
+        <Link to="/cadastro">Não tem login? Cadastre-se!</Link>
       </Form>
+      
     </Div>
   )
 
 }
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+`
+
+const Div = styled.div`
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items: center;
+  background-color: #fff;  
+  height: 100vh;
+  p{
+    font-weight: bold;
+  }
+`
+const Img = styled.img`
+  width: 50px;
+`
+const Button = styled.button`
+  width: 100px;
+  resize:none;  
+  background-color: #111111;
+  color:#ffffff;  
+  padding: 15px;
+  cursor: pointer;
+`
+
+const DivButton = styled.div`
+  display:flex;
+  gap:5px;
+`

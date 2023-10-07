@@ -1,31 +1,50 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { CartContext } from '../contexts/Cart/CartContext';
+import { Link } from 'react-router-dom';
 import { Product } from '../types/Product';
 import ProdCart from '../componentes/ProdCart/ProdCart';
-import { Link } from 'react-router-dom';
+import { AuthContext } from '../contexts/Auth/AuthContext';
+import { CartContext } from '../contexts/Cart/CartContext';
+import { Cart } from '../types/Cart';
 
 function Carrinho() {
-  const { 
-    state: { cart } ,
-    dispatch
-} = useContext(CartContext);
+  const { getCartProducts, dispatch } = useContext(CartContext);
+  const [cartItems, setCartItems] = useState<any[]>([]);
+  const auth = useContext(AuthContext);
 
-  const somarPrecos = (cart: Product[]) => {
-    if (cart.length === 0) {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getCartProducts(auth.user?._id); 
+        if (Array.isArray(response.cartItems)) {
+          setCartItems(response.cartItems);
+        } else {
+          console.error('Erro ao buscar produtos do carrinho. A resposta não é um array:', response);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar produtos do carrinho:', error);
+      }
+    };
+
+    fetchData();
+  }, [auth.user?._id, getCartProducts]);
+
+  const clearCartAndNavigate = () => {
+    dispatch({ type: 'CLEAR_CART' });
+  };
+/*
+  const somarPrecos = (items: Product[]) => {
+    if (items.length === 0) {
       return 0;
     }
 
-    const total = cart.reduce((acumulador, produto) => {
-      return acumulador + produto.price * produto.quantity;
+    const total = cart.reduce((acumulador, item) => {
+      return acumulador + item.items.price * item.quantity;
     }, 0);
 
     return total;
   };
-  const clearCartAndNavigate = () => {
-    dispatch({ type: 'CLEAR_CART' });
-  };
-
+*/
   return (
     <Div>
       <Header>
@@ -36,15 +55,15 @@ function Carrinho() {
         <Products>
           <SpanCarrinho>
             <h1>Carrinho</h1>
-            <span>{cart.length} items</span>
+            <span>{cartItems.length} items</span>
           </SpanCarrinho>
-          {cart.map((prod: Product) => (
-            <ProdCart key={prod._id} product={prod} />
+          {cartItems.map((prod: Cart) => (
+            <ProdCart id_user ={prod.id_user} _id = {prod.id_product} quantity={prod.quantity} />
           ))}
         </Products>
         <Summary>
           <h2>Resumo</h2>
-          <span>Total: R${somarPrecos(cart)}</span>
+          <span>Total: R${/*somarPrecos(cartItems)*/}</span>
           <Link to="/"><Button1 onClick={clearCartAndNavigate}>Ir para pagamento</Button1></Link>
         </Summary>
       </Main>
@@ -55,6 +74,11 @@ function Carrinho() {
     </Div>
   );
 }
+
+// Restante do código permanece o mesmo
+
+export default Carrinho;
+
 
 const Div = styled.div`
   display: flex;
@@ -169,6 +193,4 @@ const Button2 = styled.button`
     background-color: ${props => props.theme.disabled};
   }
 `
-
-export default Carrinho;
 

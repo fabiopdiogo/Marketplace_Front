@@ -7,16 +7,24 @@ export const cartReducer = (state: any, action: any) => {
     case 'REMOVE_FROM_CART':
       return {
         ...state,
-        cart: state.cart.filter((product: { _id: string; }) => product._id !== action.payload)
+        cart: state.cart.filter((product: { _id: string }) => product._id !== action.payload),
       };
     case 'UPDATE_CART_QTY':
-      return { ...state, cart: state.cart.filter((c: { _id: string; quantity: number; })=> c._id === action.payload._id ? c.quantity=action.payload.quantity : c.quantity) };
+      return {
+        ...state,
+        cart: state.cart.map((item: any) => {
+          if (item._id === action.payload._id) {
+            return { ...item, qty: action.payload.quantity };
+          }
+          return item;
+        }),
+      };
     case 'CLEAR_CART':
       return {
         ...state,
         cart: [],
       };
-      default:
+    default:
       return state;
   }
 };

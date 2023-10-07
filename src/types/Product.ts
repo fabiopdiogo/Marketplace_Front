@@ -1,6 +1,5 @@
-import { AuthContext } from "../contexts/Auth/AuthContext";
-
 export type Product = {
+  product: any;
   _id: string;
   name: string;
   image_path: string;
@@ -8,5 +7,3 @@ export type Product = {
   price: number;
 }
 
-
-export type UseProductsContextType = { products: Product[] };

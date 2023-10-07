@@ -4,48 +4,73 @@ import { Product } from '../../types/Product';
 import { CartContext } from '../../contexts/Cart/CartContext';
 
 interface Props {
-  product: Product;
+  _id: string;
+  id_user: string;
+  quantity: number;
 }
 
-function ProdCart({ product }: Props) {
-  const { _id, name, price, image_path, quantity } = product;
+function ProdCart({id_user, _id, quantity }: Props) {
+  const { getSingleProd, dispatch } = useContext(CartContext);
+  const [item, setItem] = useState<any | null>(null);
+  const {name, image_path, price } = item || {};
 
-  const {
-    state: { cart },
-    dispatch,
-  } = useContext(CartContext);
+  const {deleteFromCart} = useContext(CartContext);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getSingleProd(_id);
+        if (response) {
+          setItem(response.product[0]);
+        } else {
+          console.error('Produto não encontrado.');
+        }
+      } catch (error) {
+        console.error('Erro ao buscar produto:', error);
+      }
+    };
 
-  const RemoveProd = (id: string) => {
-    dispatch({ type: 'REMOVE_FROM_CART', payload: id });
+    fetchData();
+  }, [_id, getSingleProd]);  
+  
+  const RemoveProd = () => {
+    deleteFromCart(id_user,_id)
+    dispatch({ type: 'REMOVE_FROM_CART', payload: _id });
   };
 
   const handleQuantity = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const intValue = parseInt(event.target.value, 10);
-    dispatch({ type: 'UPDATE_CART_QTY', payload: { _id: _id, quantity: intValue } });
+    dispatch({ type: 'UPDATE_CART_QTY', payload: { _id, quantity: intValue } });
   };
-
-  useEffect(() => {
-    // console.log(cart)
-  }, [cart]);
-
+  const handlePrice = () => {
+    
+    if (price) {
+      //console.log(item.price)
+      return price * quantity;
+    }    
+    return 0;
+  };
+  
   return (
-    <CartItemContainer>      
+    <CartItemContainer>
       <ProductImage src={image_path} alt={name} />
       <ProductDetails>
         <ProductName>{name}</ProductName>
-        <ProductPrice>${price * quantity}</ProductPrice>
+        <ProductPrice>${handlePrice()}</ProductPrice>
       </ProductDetails>
-      <ProductQuantity defaultValue={quantity} onChange={handleQuantity}>
+      <ProductQuantity value={quantity} onChange={handleQuantity}>
         {[1, 2, 3, 4, 5].map((value) => (
           <option key={value} value={value}>
             {value}
           </option>
         ))}
       </ProductQuantity>
-      <Remove src="bin.png" alt="Remove" onClick={() => RemoveProd(_id)} />
+      <Remove src="bin.png" alt="Remove" onClick={RemoveProd} />
     </CartItemContainer>
   );
 }
+
+export default ProdCart;
+
 const CartItemContainer = styled.div`
   display: flex;
   align-items: center;
@@ -105,5 +130,3 @@ const Remove = styled.img`
     margin-top: 10px;
   }
 `;
-
-export default ProdCart;

@@ -1,11 +1,7 @@
-import {useContext, useEffect} from 'react'
+import {useContext} from 'react'
 
 import styled from "styled-components"
-import { CartContext } from '../contexts/Cart/CartContext'
-import { Product } from '../types/Product'
-import ProdCart from '../componentes/ProdCart/ProdCart'
 import { Link } from 'react-router-dom'
-import Button  from '../componentes/inputs/Button'
 import { AuthContext } from '../contexts/Auth/AuthContext';
 
 const ProfileContainer = styled.div`

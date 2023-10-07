@@ -4,31 +4,75 @@ import { Product } from '../../types/Product';
 import { AuthContext } from '../Auth/AuthContext';
 import { cartReducer } from './Reducer';
 import { CartContext } from './CartContext';
+import axios from 'axios';
+import { baseURL } from '../../utils/constant';
+import { Cart } from '../../types/Cart';
 
-const Cart = createContext(CartContext);
 
-export const CartProvider = ({children}: { children: JSX.Element} ) =>{
-
+export const CartProvider = ({ children }: { children: JSX.Element }) => {
   const auth = useContext(AuthContext);
   const [productsAux, setProductsAux] = useState<Product[]>([]);
+
   useEffect(() => {
-    const ListProducts = async () =>{
-      const response = await auth.getProducts()
-      setProductsAux(response)
-    }
-    ListProducts()
-  },[auth])
-    
+    const listProducts = async () => {
+      const response = await auth.getProducts();
+      setProductsAux(response);
+    };
+    listProducts();
+  }, [auth]);
+
   const [state, dispatch] = useReducer(cartReducer, {
-    products: productsAux, // Inicializa com o valor de productsAux
-    cart: []
+    products: productsAux,
+    cart: [],
   });
+
+
+
+  const addToCart = async (id_user: string, id_product: string, quantity: number) => {
+    try {
+      await axios.post(`${baseURL}/carrinho`, { id_user, id_product, quantity });
+      dispatch({ type: 'ADD_TO_CART', payload: { id_product, quantity } });
+    } catch (error) {
+      console.error('Erro ao adicionar produto ao carrinho:', error);
+    }
+  };
+  const deleteFromCart = async (id_user: string, id_product: string) => {
+    try {
+      await axios.delete(`${baseURL}/carrinho/${id_user}/${id_product}`);
+      //dispatch({ type: 'ADD_TO_CART', payload: { id_product, quantity } });
+    } catch (error) {
+      console.error('Erro ao adicionar produto ao carrinho:', error);
+    }
+  };
   
+
+
+  const getCartProducts = async (id_user: string | undefined) => {
+    try {
+      const response = await axios.get(`${baseURL}/carrinho/${id_user}`);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao obter os produtos do carrinho:', error);
+      return [];
+    }
+  };
+
+  const getSingleProd = async (_id: string | undefined) => {
+    try {
+      const response = await axios.get(`${baseURL}/item/${_id}`);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao obter o produto do estoque:', error);
+      return null;
+    }
+  };
   useEffect(() => {
     dispatch({ type: 'POPULATE', payload: productsAux });
   }, [productsAux]);
-
-  return <CartContext.Provider value={{state, dispatch}}>
-          {children}
-        </CartContext.Provider>
-}
+  return (
+    <CartContext.Provider value={{ 
+      state, dispatch, addToCart, getCartProducts, getSingleProd, deleteFromCart }}>
+      {children}
+    </CartContext.Provider>
+  );
+};

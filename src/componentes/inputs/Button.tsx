@@ -6,7 +6,7 @@ const Button = styled.button`
   border-radius: 10px;
   border: 0;
   font-weight: bold;
-  color: ${props => props.theme.white};
+  color: white;
   font-size: 16px;
   transition: 0.3s;
 

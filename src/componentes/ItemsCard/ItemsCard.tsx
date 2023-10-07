@@ -2,6 +2,7 @@ import styled  from "styled-components";
 import { Product } from "../../types/Product";
 import { CartContext } from "../../contexts/Cart/CartContext";
 import { useContext } from "react";
+import { AuthContext } from "../../contexts/Auth/AuthContext";
 
 const Card = styled.div`
   display: flex;
@@ -61,8 +62,11 @@ interface Props{
 function ItemCard({ prod }: Props) {
   const {
     state: { cart },
+    addToCart,
     dispatch
   } = useContext(CartContext);
+
+  const auth = useContext(AuthContext)
 
   return (
     <>
@@ -83,11 +87,11 @@ function ItemCard({ prod }: Props) {
         </ButtonRemove>
       ) : (
         <ButtonAdd
-          onClick={() =>
-            dispatch({
-              type: 'ADD_TO_CART',
-              payload: prod // Use prod diretamente como payload
-            })}
+          onClick={() => {
+            if(auth.user){
+              addToCart((auth.user._id), prod._id, 1)
+            } 
+          }}         
         >
           "Adicionar ao carrinho" 
         </ButtonAdd>

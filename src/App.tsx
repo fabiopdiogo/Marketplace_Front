@@ -16,7 +16,7 @@ function App() {
         <Route path="/cadastro" element={<Cadastro/>} />     
         <Route path="/carrinho" element={<RequireAuth><Carrinho/></RequireAuth>} />
         <Route path="/perfil" element={<RequireAuth><Perfil /></RequireAuth>} />
-        <Route path="/" element={<RequireAuth><HomePage/></RequireAuth>}/>
+        <Route path="/" element={<HomePage/>} />
       </Routes>
     </div>
   );

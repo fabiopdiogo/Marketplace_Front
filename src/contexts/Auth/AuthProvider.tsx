@@ -43,10 +43,15 @@ export const AuthProvider = ({ children }: { children: JSX.Element}) => {
   }
 
   const signout = async () => {
-    //await api.logout();
-    setUser(null);    
-    setToken('')
+    try {
+      await api.logout();  // Certifique-se de que api.logout() é assíncrona
+      setUser(null);
+      setToken('');
+    } catch (error) {
+      console.error("Erro ao fazer logout:", error);
+    }
   }
+  
 
   const getProducts = async() => {
     const data = await api.getProducts()
@@ -58,7 +63,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element}) => {
   }
   
   return (
-    <AuthContext.Provider value={{user, signin, signout, getProducts,}}>
+    <AuthContext.Provider value={{user, signin, signout, getProducts}}>
       {children}
     </AuthContext.Provider>
   )

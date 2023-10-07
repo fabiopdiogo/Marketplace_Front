@@ -5,7 +5,7 @@ import Navbar from '../componentes/Navbar/Navbar';
 
 import Cover from '../Sections/Cover/Cover';
 import ItemCard from '../componentes/ItemsCard/ItemsCard';
-import { Product, UseProductsContextType } from '../types/Product';
+import { Product } from '../types/Product';
 import { AuthContext } from '../contexts/Auth/AuthContext';
 import { CartContext } from '../contexts/Cart/CartContext'
 import Menu from '../componentes/Menu/Menu';
@@ -61,9 +61,8 @@ export default function HomePage(){
   
 
   const [menuIsVisible, setMenuIsVisible] = useState(false);
-  //const [products, setProducts] = useState<Product[]>([]);
   const {
-    state: { cart, products },
+    state: { cart, products},
   } = useContext(CartContext);
   return(
     <Page>
