@@ -14,7 +14,7 @@ function ProdCart({id_user, _id, quantity }: Props) {
   const [item, setItem] = useState<any | null>(null);
   const {name, image_path, price } = item || {};
 
-  const {deleteFromCart} = useContext(CartContext);
+  const {deleteFromCart, updateCart} = useContext(CartContext);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -39,12 +39,12 @@ function ProdCart({id_user, _id, quantity }: Props) {
 
   const handleQuantity = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const intValue = parseInt(event.target.value, 10);
+    updateCart(id_user, _id, intValue)
     dispatch({ type: 'UPDATE_CART_QTY', payload: { _id, quantity: intValue } });
   };
-  const handlePrice = () => {
-    
+  
+  const handlePrice = () => {    
     if (price) {
-      //console.log(item.price)
       return price * quantity;
     }    
     return 0;

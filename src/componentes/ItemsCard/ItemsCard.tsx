@@ -4,19 +4,6 @@ import { CartContext } from "../../contexts/Cart/CartContext";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
 
-const Card = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%; /* Largura fixa da div pai */
-  height: auto; /* Altura fixa da div pai */
-  padding: 15px;
-  margin-bottom: 20px;
-  &:hover{
-    box-shadow:
-    0px 0px 4px rgba(0, 0, 0, 0.2), /* Sombra fraca em todas as direções */
-    8px 0px 8px -4px rgba(0, 0, 0, 0.2); /* Sombra mais forte na direita */
-  }
-`
 const Button = styled.button`
   width: 100%;
   margin-top: 2%;

@@ -11,8 +11,13 @@ import { Cart } from '../../types/Cart';
 
 export const CartProvider = ({ children }: { children: JSX.Element }) => {
   const auth = useContext(AuthContext);
-  const [productsAux, setProductsAux] = useState<Product[]>([]);
-
+  const [productsAux, setProductsAux] = useState<Product[]>([]);  
+  const [cart, setCart] = useState<Cart | null>(null);
+  const [state, dispatch] = useReducer(cartReducer, {
+    products: productsAux,
+    cart: [],
+  }); 
+  
   useEffect(() => {
     const listProducts = async () => {
       const response = await auth.getProducts();
@@ -20,12 +25,7 @@ export const CartProvider = ({ children }: { children: JSX.Element }) => {
     };
     listProducts();
   }, [auth]);
-
-  const [state, dispatch] = useReducer(cartReducer, {
-    products: productsAux,
-    cart: [],
-  });
-
+  
 
 
   const addToCart = async (id_user: string, id_product: string, quantity: number) => {
@@ -45,11 +45,19 @@ export const CartProvider = ({ children }: { children: JSX.Element }) => {
     }
   };
   
-
+  const updateCart = async (id_user: string, id_product: string, quantity: number) => {
+    try {
+      await axios.put(`${baseURL}/atualizarcarrinho/${id_user}/${id_product}`, {quantity});
+      //dispatch({ type: 'ADD_TO_CART', payload: { id_product, quantity } });
+    } catch (error) {
+      console.error('Erro ao atualizar produto ao carrinho:', error);
+    }
+  };
 
   const getCartProducts = async (id_user: string | undefined) => {
     try {
       const response = await axios.get(`${baseURL}/carrinho/${id_user}`);
+      setCart(response.data)
       return response.data;
     } catch (error) {
       console.error('Erro ao obter os produtos do carrinho:', error);
@@ -71,7 +79,7 @@ export const CartProvider = ({ children }: { children: JSX.Element }) => {
   }, [productsAux]);
   return (
     <CartContext.Provider value={{ 
-      state, dispatch, addToCart, getCartProducts, getSingleProd, deleteFromCart }}>
+      state, dispatch, addToCart, getCartProducts, getSingleProd, deleteFromCart, updateCart }}>
       {children}
     </CartContext.Provider>
   );
