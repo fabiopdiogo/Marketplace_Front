@@ -9,7 +9,11 @@ import { Cart } from '../types/Cart';
 
 function Carrinho() {
   const { getCartProducts, dispatch } = useContext(CartContext);
-  const [cartItems, setCartItems] = useState<any[]>([]);
+  const {
+    state: {products},
+  } = useContext(CartContext);
+
+  const [cartItems, setCartItems] = useState<Cart[]>([]);
   const auth = useContext(AuthContext);
 
   useEffect(() => {
@@ -32,19 +36,19 @@ function Carrinho() {
   const clearCartAndNavigate = () => {
     dispatch({ type: 'CLEAR_CART' });
   };
-/*
-  const somarPrecos = (items: Product[]) => {
-    if (items.length === 0) {
-      return 0;
+
+  const somarPrecos = (items: Cart[], products: Product[]) => {
+    let total = 0;
+  
+    for (const item of items) {
+      const product = products.find((prod) => prod._id === item.id_product);
+      if (product) {
+        total += product.price * item.quantity;
+      }
     }
-
-    const total = cart.reduce((acumulador, item) => {
-      return acumulador + item.items.price * item.quantity;
-    }, 0);
-
+  
     return total;
   };
-*/
   return (
     <Div>
       <Header>
@@ -63,11 +67,11 @@ function Carrinho() {
         </Products>
         <Summary>
           <h2>Resumo</h2>
-          <span>Total: R${/*somarPrecos(cartItems)*/}</span>
-          <Link to="/"><Button1 onClick={clearCartAndNavigate}>Ir para pagamento</Button1></Link>
+          <span>Total: R${somarPrecos(cartItems,products)}</span>
+          <Link to="/"><Button1 onClick={clearCartAndNavigate}>Confirmar</Button1></Link>
         </Summary>
       </Main>
-      <Link to="/"><Button2 onClick={clearCartAndNavigate}>Ir para pagamento</Button2></Link>
+      <Link to="/"><Button2 onClick={clearCartAndNavigate}>Confirmar</Button2></Link>
       <Footer>
         SAC Carrinho Telefone/Whats: (31) 9999-9999
       </Footer>

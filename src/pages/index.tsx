@@ -57,8 +57,7 @@ const ItemsSection = styled.section`
     8px 0px 8px -4px rgba(0, 0, 0, 0.2); /* Sombra mais forte na direita */
   }
 `
-export default function HomePage(){
-  
+export default function HomePage(){ 
 
   const [menuIsVisible, setMenuIsVisible] = useState(false);
   const {
