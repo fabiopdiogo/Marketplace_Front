@@ -8,7 +8,7 @@ import { CartContext } from '../contexts/Cart/CartContext';
 import { Cart } from '../types/Cart';
 
 function Carrinho() {
-  const { getCartProducts, dispatch } = useContext(CartContext);
+  const { getCartProducts,finishPurchase, dispatch } = useContext(CartContext);
   const {
     state: {products},
   } = useContext(CartContext);
@@ -35,6 +35,8 @@ function Carrinho() {
 
   const clearCartAndNavigate = () => {
     dispatch({ type: 'CLEAR_CART' });
+    finishPurchase(auth.user?._id); 
+
   };
 
   const somarPrecos = (items: Cart[], products: Product[]) => {

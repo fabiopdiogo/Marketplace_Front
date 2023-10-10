@@ -11,6 +11,7 @@ export type CartContextType = {
   getSingleProd: (_id: string | undefined) => Promise<Product>;
   deleteFromCart: (id_user:string,id_product: string) => void;
   updateCart: (id_user:string,id_product: string, quantity: number) => void;
+  finishPurchase: (_id: string | undefined) => void;
 }
 
 export const CartContext = createContext<CartContextType>(null!);

@@ -74,12 +74,23 @@ export const CartProvider = ({ children }: { children: JSX.Element }) => {
       return null;
     }
   };
+  const finishPurchase = async (id_user: string | undefined) => {
+    try {
+      const response = await axios.post(`${baseURL}/compra/${id_user}`);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao finalizar compra:', error);
+      return [];
+    }
+  };
+
   useEffect(() => {
     dispatch({ type: 'POPULATE', payload: productsAux });
   }, [productsAux]);
   return (
     <CartContext.Provider value={{ 
-      state, dispatch, addToCart, getCartProducts, getSingleProd, deleteFromCart, updateCart }}>
+      state, dispatch, addToCart, getCartProducts, 
+      getSingleProd, deleteFromCart, updateCart,finishPurchase }}>
       {children}
     </CartContext.Provider>
   );
