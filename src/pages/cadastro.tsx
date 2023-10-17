@@ -33,6 +33,7 @@ function Cadastro() {
 
   const createUser = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log("aqui")
     console.log(formData);
     axios.post(`${baseURL}/cadastro`, formData).then((res) => {
       console.log(res.data);
@@ -61,9 +62,10 @@ function Cadastro() {
   const createSession = async () => {
     try {
       const response = await auth.signin(formData.email, formData.password);
-      if (response.status === 200) {
+      console.log(response)
+      if (response === true) {
         console.log("Sessão criada com sucesso");
-        navigate("/");
+        navigate("/"); // Redireciona para a página inicial após o cadastro
       } else {
         console.log("Senha ou usuário inválidos");
       }
@@ -77,6 +79,7 @@ function Cadastro() {
       console.error("Erro ao criar sessão:", error);
     }
   };
+  
   return (
     <Form onSubmit={createUser}>
       <Input label="Nome" name="name" error={""} onChange={handleChange} value={formData.name} />
@@ -86,9 +89,8 @@ function Cadastro() {
       <Input label="Sexo" name="sex" error={""} onChange={handleChange} value={formData.sex} />
       <Input label="Telefone" name="number" error={""} onChange={handleChange} value={formData.number} />
       <Input label="Senha" name="password" error={""} onChange={handleChange} value={formData.password} />
-      <Button type="submit">
-        <Link to="/">Cadastrar</Link>
-      </Button>
+      <button type="submit">Cadastrar</button>
+
     </Form>
   );
 }

@@ -1,12 +1,10 @@
 import React, {useState, useEffect, useContext} from 'react';
 import styled from 'styled-components';
-import { Route, redirect } from 'react-router-dom';
 import Navbar from '../componentes/Navbar/Navbar';
 
 import Cover from '../Sections/Cover/Cover';
 import ItemCard from '../componentes/ItemsCard/ItemsCard';
 import { Product } from '../types/Product';
-import { AuthContext } from '../contexts/Auth/AuthContext';
 import { CartContext } from '../contexts/Cart/CartContext'
 import Menu from '../componentes/Menu/Menu';
 
@@ -57,6 +55,7 @@ const ItemsSection = styled.section`
     8px 0px 8px -4px rgba(0, 0, 0, 0.2); /* Sombra mais forte na direita */
   }
 `
+
 export default function HomePage(){ 
 
   const [menuIsVisible, setMenuIsVisible] = useState(false);
