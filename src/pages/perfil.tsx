@@ -72,10 +72,6 @@ function Perfil (){
         <p>{auth.user && auth.user.sex}</p>
       </ProfileItem>
       <ProfileItem>
-        <ProfileLabel>CPF:</ProfileLabel>
-        <p>{auth.user && auth.user.cpf}</p>
-      </ProfileItem>
-      <ProfileItem>
         <ProfileLabel>Number:</ProfileLabel>
         <p>{auth.user && auth.user.number}</p>
       </ProfileItem>

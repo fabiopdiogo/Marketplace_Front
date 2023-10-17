@@ -24,7 +24,7 @@ export default function Login (){
         const response = await auth.signin(email,password);       
          
         console.log(response)
-        if (response.status === 200 ) {
+        if (response === true ) {
           console.log("Conectado");
           navigate('/')
         } else {
