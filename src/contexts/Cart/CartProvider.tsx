@@ -17,63 +17,16 @@ export const CartProvider = ({ children }: { children: JSX.Element }) => {
     products: productsAux,
     cart: [],
   }); 
-  
+    
   useEffect(() => {
     const listProducts = async () => {
       const response = await auth.getProducts();
       setProductsAux(response);
     };
     listProducts();
-  }, [auth]);
+  }, [auth]);  
+
   
-
-
-  const addToCart = async (id_user: string, id_product: string, quantity: number) => {
-    try {
-      await axios.post(`${baseURL}/carrinho`, { id_user, id_product, quantity });
-      dispatch({ type: 'ADD_TO_CART', payload: { id_product, quantity } });
-    } catch (error) {
-      console.error('Erro ao adicionar produto ao carrinho:', error);
-    }
-  };
-  const deleteFromCart = async (id_user: string, id_product: string) => {
-    try {
-      await axios.delete(`${baseURL}/carrinho/${id_user}/${id_product}`);
-      //dispatch({ type: 'ADD_TO_CART', payload: { id_product, quantity } });
-    } catch (error) {
-      console.error('Erro ao adicionar produto ao carrinho:', error);
-    }
-  };
-  
-  const updateCart = async (id_user: string, id_product: string, quantity: number) => {
-    try {
-      await axios.put(`${baseURL}/atualizarcarrinho/${id_user}/${id_product}`, {quantity});
-      //dispatch({ type: 'ADD_TO_CART', payload: { id_product, quantity } });
-    } catch (error) {
-      console.error('Erro ao atualizar produto ao carrinho:', error);
-    }
-  };
-
-  const getCartProducts = async (id_user: string | undefined) => {
-    try {
-      const response = await axios.get(`${baseURL}/carrinho/${id_user}`);
-      setCart(response.data)
-      return response.data;
-    } catch (error) {
-      console.error('Erro ao obter os produtos do carrinho:', error);
-      return [];
-    }
-  };
-
-  const getSingleProd = async (_id: string | undefined) => {
-    try {
-      const response = await axios.get(`${baseURL}/item/${_id}`);
-      return response.data;
-    } catch (error) {
-      console.error('Erro ao obter o produto do estoque:', error);
-      return null;
-    }
-  };
   const finishPurchase = async (id_user: string | undefined) => {
     try {
       const response = await axios.post(`${baseURL}/compra/${id_user}`);
@@ -85,12 +38,11 @@ export const CartProvider = ({ children }: { children: JSX.Element }) => {
   };
 
   useEffect(() => {
-    dispatch({ type: 'POPULATE', payload: productsAux });
+    dispatch({ type: 'POPULATE_PRODUCTS', payload: productsAux });
   }, [productsAux]);
   return (
     <CartContext.Provider value={{ 
-      state, dispatch, addToCart, getCartProducts, 
-      getSingleProd, deleteFromCart, updateCart,finishPurchase }}>
+      state, dispatch, finishPurchase }}>
       {children}
     </CartContext.Provider>
   );

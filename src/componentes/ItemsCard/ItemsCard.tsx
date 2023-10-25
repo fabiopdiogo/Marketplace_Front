@@ -1,8 +1,54 @@
 import styled  from "styled-components";
 import { Product } from "../../types/Product";
 import { CartContext } from "../../contexts/Cart/CartContext";
-import { useContext } from "react";
-import { AuthContext } from "../../contexts/Auth/AuthContext";
+import { useContext, useEffect } from "react";
+
+interface Props{
+  prod : Product;
+}
+
+function ItemCard({ prod }: Props) {
+  const {_id,image_path, price} = prod;
+  const id_product = _id;
+  const {
+    state: { cart },
+    dispatch
+  } = useContext(CartContext);
+
+  return (
+    <>
+      <Image src={prod.image_path} />
+      <P>{prod.name}</P>
+      <Preco>R${prod.price}</Preco>
+      <P>A vista no pix</P>
+      {cart.some((p: { id_product: string }) => p.id_product === prod._id) ? (
+        <ButtonRemove
+          onClick={() =>
+            dispatch({
+              type: 'REMOVE_FROM_CART',
+              payload: prod._id // Use prod._id como payload
+            })
+          }
+        >
+          Remover do Carrinho
+        </ButtonRemove>
+      ) : (
+        <ButtonAdd
+          onClick={() => {
+            dispatch({
+              type: 'ADD_TO_CART',
+              payload: {id_product, image_path, price} // Use prod._id como payload
+            })
+          }}         
+        >
+          "Adicionar ao carrinho" 
+        </ButtonAdd>
+      )}
+    </>
+  );
+}
+
+export default ItemCard;
 
 const Button = styled.button`
   width: 100%;
@@ -42,50 +88,3 @@ const Preco = styled.h2`
 const P = styled.p`
   width: 100%; 
 `
-interface Props{
-  prod : Product;
-}
-
-function ItemCard({ prod }: Props) {
-  const {
-    state: { cart },
-    addToCart,
-    dispatch
-  } = useContext(CartContext);
-
-  const auth = useContext(AuthContext)
-
-  return (
-    <>
-      <Image src={prod.image_path} />
-      <P>{prod.name}</P>
-      <Preco>R${prod.price}</Preco>
-      <P>A vista no pix</P>
-      {cart.some((p: { _id: any }) => p._id === prod._id) ? (
-        <ButtonRemove
-          onClick={() =>
-            dispatch({
-              type: 'REMOVE_FROM_CART',
-              payload: prod._id // Use prod._id como payload
-            })
-          }
-        >
-          Remover do Carrinho
-        </ButtonRemove>
-      ) : (
-        <ButtonAdd
-          onClick={() => {
-            if(auth.user){
-              addToCart((auth.user._id), prod._id, 1)
-            } 
-          }}         
-        >
-          "Adicionar ao carrinho" 
-        </ButtonAdd>
-      )}
-    </>
-  );
-}
-
-
-export default ItemCard;

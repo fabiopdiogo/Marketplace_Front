@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Product } from '../types/Product';
@@ -8,35 +8,15 @@ import { CartContext } from '../contexts/Cart/CartContext';
 import { Cart } from '../types/Cart';
 
 function Carrinho() {
-  const { getCartProducts,finishPurchase, dispatch } = useContext(CartContext);
+  const {finishPurchase, dispatch } = useContext(CartContext);
   const {
-    state: {products},
+    state: {cart,products},
   } = useContext(CartContext);
-
-  const [cartItems, setCartItems] = useState<Cart[]>([]);
   const auth = useContext(AuthContext);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getCartProducts(auth.user?._id); 
-        if (Array.isArray(response.cartItems)) {
-          setCartItems(response.cartItems);
-        } else {
-          console.error('Erro ao buscar produtos do carrinho. A resposta não é um array:', response);
-        }
-      } catch (error) {
-        console.error('Erro ao buscar produtos do carrinho:', error);
-      }
-    };
-
-    fetchData();
-  }, [auth.user?._id, getCartProducts]);
 
   const clearCartAndNavigate = () => {
     dispatch({ type: 'CLEAR_CART' });
     finishPurchase(auth.user?._id); 
-
   };
 
   const somarPrecos = (items: Cart[], products: Product[]) => {
@@ -61,15 +41,15 @@ function Carrinho() {
         <Products>
           <SpanCarrinho>
             <h1>Carrinho</h1>
-            <span>{cartItems.length} items</span>
+            <span>{cart.length} items</span>
           </SpanCarrinho>
-          {cartItems.map((prod: Cart) => (
-            <ProdCart id_user ={prod.id_user} _id = {prod.id_product} quantity={prod.quantity} />
+          {cart.map((prod: Cart) => (
+            <ProdCart id_user ={prod.id_user} id_product = {prod.id_product} quantity={prod.quantity} />
           ))}
         </Products>
         <Summary>
           <h2>Resumo</h2>
-          <span>Total: R${somarPrecos(cartItems,products)}</span>
+          <span>Total: R${somarPrecos(cart,products)}</span>
           <Link to="/"><Button1 onClick={clearCartAndNavigate}>Confirmar</Button1></Link>
         </Summary>
       </Main>
@@ -80,8 +60,6 @@ function Carrinho() {
     </Div>
   );
 }
-
-// Restante do código permanece o mesmo
 
 export default Carrinho;
 

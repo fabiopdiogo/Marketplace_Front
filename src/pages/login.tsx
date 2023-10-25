@@ -20,7 +20,7 @@ export default function Login (){
     try{
       
       if(email && password){
-        console.log("aqui")
+        console.log("aqui")  
         const response = await auth.signin(email,password);       
          
         console.log(response)
