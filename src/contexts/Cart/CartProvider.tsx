@@ -26,7 +26,7 @@ export const CartProvider = ({ children }: { children: JSX.Element }) => {
     listProducts();
   }, [auth]);  
 
-  
+  /*
   const finishPurchase = async (id_user: string | undefined) => {
     try {
       const response = await axios.post(`${baseURL}/compra/${id_user}`);
@@ -36,13 +36,12 @@ export const CartProvider = ({ children }: { children: JSX.Element }) => {
       return [];
     }
   };
-
+  */
   useEffect(() => {
     dispatch({ type: 'POPULATE_PRODUCTS', payload: productsAux });
   }, [productsAux]);
   return (
-    <CartContext.Provider value={{ 
-      state, dispatch, finishPurchase }}>
+    <CartContext.Provider value={{ state, dispatch}}>
       {children}
     </CartContext.Provider>
   );

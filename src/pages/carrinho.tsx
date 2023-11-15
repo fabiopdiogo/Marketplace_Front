@@ -8,15 +8,22 @@ import { CartContext } from '../contexts/Cart/CartContext';
 import { Cart } from '../types/Cart';
 
 function Carrinho() {
-  const {finishPurchase, dispatch } = useContext(CartContext);
+  const {dispatch } = useContext(CartContext);
   const {
     state: {cart,products},
   } = useContext(CartContext);
-  const auth = useContext(AuthContext);
-
-  const clearCartAndNavigate = () => {
-    dispatch({ type: 'CLEAR_CART' });
-    finishPurchase(auth.user?._id); 
+  //const auth = useContext(AuthContext);
+  const isCartEmpty = cart.length === 0;
+  const clearCartAndNavigate = () => {  
+  window.alert('Compra finalizada com sucesso!');
+    if (dispatch) {
+      dispatch({ type: 'CLEAR_CART' });
+    }
+    /*
+    if (finishPurchase && auth.user) {
+      finishPurchase(auth.user._id);
+    }
+    */
   };
 
   const somarPrecos = (items: Cart[], products: Product[]) => {
@@ -31,6 +38,9 @@ function Carrinho() {
   
     return total;
   };
+
+  
+  
   return (
     <Div>
       <Header>
@@ -50,10 +60,10 @@ function Carrinho() {
         <Summary>
           <h2>Resumo</h2>
           <span>Total: R${somarPrecos(cart,products)}</span>
-          <Link to="/"><Button1 onClick={clearCartAndNavigate}>Confirmar</Button1></Link>
+          <Link to="/"><Button1 onClick={clearCartAndNavigate} disabled={isCartEmpty}>Confirmar</Button1></Link>
         </Summary>
       </Main>
-      <Link to="/"><Button2 onClick={clearCartAndNavigate}>Confirmar</Button2></Link>
+      <Link to="/"><Button2 onClick={clearCartAndNavigate} disabled={isCartEmpty}>Confirmar</Button2></Link>
       <Footer>
         SAC Carrinho Telefone/Whats: (31) 9999-9999
       </Footer>
@@ -111,7 +121,7 @@ const Summary = styled.div`
   box-sizing: border-box;
   background-color: #353853;
   color: white;
-
+  padding:10px 5px;
   @media (max-width: 800px) {
     display: flex;
     align-items: center;
@@ -137,6 +147,7 @@ const Button1 = styled.button`
   font-weight: bold;
   color: ${props => props.theme.white};
   font-size: 16px;
+  cursor: pointer;
 
   @media (max-width: 800px) {
     display: none;
@@ -148,7 +159,9 @@ const Button1 = styled.button`
   }
 
   :disabled {
-    background-color: ${props => props.theme.disabled};
+    /* Define styles for the disabled state. You can use the same styles as for the "not-allowed" cursor and gray background. */
+    cursor: not-allowed;
+    background-color: gray;
   }
 `
 const Button2 = styled.button`
@@ -162,7 +175,7 @@ const Button2 = styled.button`
   font-weight: bold;
   color: ${props => props.theme.white};
   font-size: 16px;
-
+  cursor: pointer;
   @media (max-width: 800px) {
     display: block;
   }
@@ -174,7 +187,9 @@ const Button2 = styled.button`
   }
 
   :disabled {
-    background-color: ${props => props.theme.disabled};
+    /* Define styles for the disabled state. You can use the same styles as for the "not-allowed" cursor and gray background. */
+    cursor: not-allowed;
+    background-color: gray;
   }
 `
 
